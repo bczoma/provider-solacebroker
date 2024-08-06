@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
-	resource "github.com/bczoma/provider-solacebroker/internal/controller/null/resource"
+	vpnclientusername "github.com/bczoma/provider-solacebroker/internal/controller/clientusername/vpnclientusername"
 	providerconfig "github.com/bczoma/provider-solacebroker/internal/controller/providerconfig"
 )
 
@@ -17,7 +17,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		resource.Setup,
+		vpnclientusername.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

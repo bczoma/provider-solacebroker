@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: providerconfigs.solacebroker.upbound.io
+  name: providerconfigs.solacebroker.bczoma.com
 spec:
-  group: solacebroker.upbound.io
+  group: solacebroker.bczoma.com
   names:
     categories:
     - crossplane

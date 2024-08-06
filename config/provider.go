@@ -10,7 +10,7 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
-	"github.com/bczoma/provider-solacebroker/config/queue"
+	"github.com/bczoma/provider-solacebroker/config/clientusername"
 )
 
 const (
@@ -36,7 +36,7 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		queue.Configure,
+		clientusername.Configure,
 	} {
 		configure(pc)
 	}

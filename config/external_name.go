@@ -10,7 +10,7 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// https://github.com/crossplane/upjet/blob/main/docs/configuring-a-resource.md#external-name
-	"solacebroker_msg_vpn_queue": config.TemplatedStringAsIdentifier("queue_name", "{{ .parameters.msg_vpn_name }}/{{ .external_name }}"),
+	"solacebroker_msg_vpn_client_username": config.TemplatedStringAsIdentifier("client_username", "{{ .parameters.msg_vpn_name }}/{{ .external_name }}"),
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
