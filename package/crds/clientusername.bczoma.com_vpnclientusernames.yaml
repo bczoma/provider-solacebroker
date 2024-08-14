@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: resources.null.template.upbound.io
+  name: vpnclientusernames.clientusername.bczoma.com
 spec:
-  group: null.template.upbound.io
+  group: clientusername.bczoma.com
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - solacebroker
+    kind: VPNClientUsername
+    listKind: VPNClientUsernameList
+    plural: vpnclientusernames
+    singular: vpnclientusername
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,10 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API. The null_resource
-          resource implements the standard resource lifecycle but takes no further
-          action. The triggers argument allows specifying an arbitrary set of values
-          that, when changed, will cause the resource to be replaced.
+        description: VPNClientUsername is the Schema for the VPNClientUsernames API.
+          <no value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -52,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: VPNClientUsernameSpec defines the desired state of VPNClientUsername
             properties:
               deletionPolicy:
                 default: Delete
@@ -69,13 +67,70 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
+                  aclProfileName:
+                    description: The ACL Profile of the Client Username. Modifying
+                      this attribute while the object (or the relevant part of the
+                      object) is administratively enabled may be service impacting
+                      as enabled will be temporarily set to false to apply the change.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `"default"`.
+                    type: string
+                  clientProfileName:
+                    description: The Client Profile of the Client Username. Modifying
+                      this attribute while the object (or the relevant part of the
+                      object) is administratively enabled may be service impacting
+                      as enabled will be temporarily set to false to apply the change.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `"default"`.
+                    type: string
+                  enabled:
+                    description: Enable or disable the Client Username. When disabled,
+                      all clients currently connected as the Client Username are disconnected.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `false`.
+                    type: boolean
+                  guaranteedEndpointPermissionOverrideEnabled:
+                    description: Enable or disable guaranteed endpoint permission
+                      override for the Client Username. When enabled all guaranteed
+                      endpoints may be accessed, modified or deleted with the same
+                      permission as the owner. Changes to this attribute are synchronized
+                      to HA mates and replication sites via config-sync. The default
+                      value is `false`.
+                    type: boolean
+                  msgVpnName:
+                    description: The name of the Message VPN.
+                    type: string
+                  passwordSecretRef:
+                    description: The password for the Client Username. This attribute
+                      is absent from a GET and not updated when absent in a PUT, subject
+                      to the exceptions in note 4 (refer to the `Notes` section in
+                      the SEMP API `Config reference`). Changes to this attribute
+                      are synchronized to HA mates and replication sites via config-sync.
+                      The default value is `""`.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
                     type: object
+                  subscriptionManagerEnabled:
+                    description: Enable or disable the subscription management capability
+                      of the Client Username. This is the ability to manage subscriptions
+                      on behalf of other Client Usernames. Changes to this attribute
+                      are synchronized to HA mates and replication sites via config-sync.
+                      The default value is `false`.
+                    type: boolean
+                required:
+                - msgVpnName
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -89,13 +144,43 @@ spec:
                   for example because of an external controller is managing them,
                   like an autoscaler.
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  aclProfileName:
+                    description: The ACL Profile of the Client Username. Modifying
+                      this attribute while the object (or the relevant part of the
+                      object) is administratively enabled may be service impacting
+                      as enabled will be temporarily set to false to apply the change.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `"default"`.
+                    type: string
+                  clientProfileName:
+                    description: The Client Profile of the Client Username. Modifying
+                      this attribute while the object (or the relevant part of the
+                      object) is administratively enabled may be service impacting
+                      as enabled will be temporarily set to false to apply the change.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `"default"`.
+                    type: string
+                  enabled:
+                    description: Enable or disable the Client Username. When disabled,
+                      all clients currently connected as the Client Username are disconnected.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `false`.
+                    type: boolean
+                  guaranteedEndpointPermissionOverrideEnabled:
+                    description: Enable or disable guaranteed endpoint permission
+                      override for the Client Username. When enabled all guaranteed
+                      endpoints may be accessed, modified or deleted with the same
+                      permission as the owner. Changes to this attribute are synchronized
+                      to HA mates and replication sites via config-sync. The default
+                      value is `false`.
+                    type: boolean
+                  subscriptionManagerEnabled:
+                    description: Enable or disable the subscription management capability
+                      of the Client Username. This is the ability to manage subscriptions
+                      on behalf of other Client Usernames. Changes to this attribute
+                      are synchronized to HA mates and replication sites via config-sync.
+                      The default value is `false`.
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -258,19 +343,52 @@ spec:
             - forProvider
             type: object
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: VPNClientUsernameStatus defines the observed state of VPNClientUsername.
             properties:
               atProvider:
                 properties:
+                  aclProfileName:
+                    description: The ACL Profile of the Client Username. Modifying
+                      this attribute while the object (or the relevant part of the
+                      object) is administratively enabled may be service impacting
+                      as enabled will be temporarily set to false to apply the change.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `"default"`.
+                    type: string
+                  clientProfileName:
+                    description: The Client Profile of the Client Username. Modifying
+                      this attribute while the object (or the relevant part of the
+                      object) is administratively enabled may be service impacting
+                      as enabled will be temporarily set to false to apply the change.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `"default"`.
+                    type: string
+                  enabled:
+                    description: Enable or disable the Client Username. When disabled,
+                      all clients currently connected as the Client Username are disconnected.
+                      Changes to this attribute are synchronized to HA mates and replication
+                      sites via config-sync. The default value is `false`.
+                    type: boolean
+                  guaranteedEndpointPermissionOverrideEnabled:
+                    description: Enable or disable guaranteed endpoint permission
+                      override for the Client Username. When enabled all guaranteed
+                      endpoints may be accessed, modified or deleted with the same
+                      permission as the owner. Changes to this attribute are synchronized
+                      to HA mates and replication sites via config-sync. The default
+                      value is `false`.
+                    type: boolean
                   id:
                     type: string
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  msgVpnName:
+                    description: The name of the Message VPN.
+                    type: string
+                  subscriptionManagerEnabled:
+                    description: Enable or disable the subscription management capability
+                      of the Client Username. This is the ability to manage subscriptions
+                      on behalf of other Client Usernames. Changes to this attribute
+                      are synchronized to HA mates and replication sites via config-sync.
+                      The default value is `false`.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

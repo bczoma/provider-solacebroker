@@ -15,7 +15,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/terraform"
 
-	"github.com/upbound/upjet-provider-template/apis/v1beta1"
+	"github.com/bczoma/provider-solacebroker/apis/v1beta1"
 )
 
 const (
@@ -24,7 +24,11 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal solacebroker credentials as JSON"
+
+	keyURL      = "url"
+	keyUsername = "username"
+	keyPassword = "password"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -63,10 +67,16 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{}
+		if v, ok := creds[keyURL]; ok {
+			ps.Configuration[keyURL] = v
+		}
+		if v, ok := creds[keyUsername]; ok {
+			ps.Configuration[keyUsername] = v
+		}
+		if v, ok := creds[keyPassword]; ok {
+			ps.Configuration[keyPassword] = v
+		}
 		return ps, nil
 	}
 }

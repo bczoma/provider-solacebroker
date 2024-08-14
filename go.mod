@@ -1,4 +1,4 @@
-module github.com/upbound/upjet-provider-template
+module github.com/bczoma/provider-solacebroker
 
 go 1.19
 
