@@ -1,11 +1,11 @@
-apiVersion: solacebroker.upbound.io/v1beta1
+apiVersion: solacebroker.bczoma.com/v1beta1
 kind: ProviderConfig
 metadata:
-  name: default
+  name: testbroker
 spec:
   credentials:
     source: Secret
     secretRef:
-      name: example-creds
-      namespace: crossplane-system
+      name: solace-secret
+      namespace: default
       key: credentials

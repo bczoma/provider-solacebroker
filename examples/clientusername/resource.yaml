@@ -1,0 +1,10 @@
+apiVersion: clientusername.bczoma.com/v1alpha1
+kind: VPNClientUsername
+metadata:
+  name: example-clientusername
+spec:
+  forProvider:
+    msgVpnName: default
+    enabled: true
+  providerConfigRef:
+    name: testbroker

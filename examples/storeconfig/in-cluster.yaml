@@ -1,0 +1,7 @@
+apiVersion: solacebroker.bczoma.com/v1alpha1
+kind: StoreConfig
+metadata:
+  name: in-cluster-config
+spec:
+  type: Kubernetes
+  defaultScope: crossplane-system
