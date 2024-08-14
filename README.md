@@ -5,6 +5,11 @@ is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 solacebroker API.
 
+Example conversion of solacebroker Terraform provider with the `client_username` resource.
+Note that the latest version of the Terraform provider doesn't use the `id` attribute in
+its resources so an older version has been used as a proof-of-concept.
+
+
 ## Getting Started
 
 Install the provider by using the following command after changing the image tag
